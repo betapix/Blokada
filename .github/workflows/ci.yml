@@ -63,8 +63,8 @@ jobs:
         with:
           name: android-debug-apks
           path: |
-            android/app/build/outputs/apk/family/debug/app-family-debug.apk
-            android/app/build/outputs/apk/six/debug/app-six-debug.apk
+            android/app/build/outputs/apk/**/debug/*.apk
+            android/app/build/outputs/apk/*Debug/*.apk
 
   android-release:
     if: ${{ github.event_name == 'workflow_dispatch' }}
@@ -113,7 +113,7 @@ jobs:
         with:
           name: aab-${{ github.event.inputs.flavor }}
           path: |
-            android/app/build/outputs/bundle/${{ github.event.inputs.flavor }}Release/app-${{ github.event.inputs.flavor }}-release.aab
+            android/app/build/outputs/bundle/${{ github.event.inputs.flavor }}Release/*.aab
 
       - name: Optionally publish to Google Play (internal)
         if: ${{ github.event.inputs.publish == 'true' }}
