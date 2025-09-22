@@ -69,6 +69,7 @@ jobs:
           name: android-debug-apks
           path: |
             android/**/build/outputs/**/*.apk
+            android/**/build/outputs/flutter-apk/*.apk
 
   android-release:
     if: ${{ github.event_name == 'workflow_dispatch' }}
