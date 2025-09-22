@@ -47,6 +47,14 @@ jobs:
           cache: true
           channel: 'stable'
 
+      - name: Install and init FVM
+        run: |
+          dart pub global activate fvm
+          echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+          cd common
+          fvm install
+          fvm use
+
       - name: Flutter doctor
         run: flutter doctor -v | cat
 
@@ -95,6 +103,14 @@ jobs:
         with:
           cache: true
           channel: 'stable'
+
+      - name: Install and init FVM
+        run: |
+          dart pub global activate fvm
+          echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+          cd common
+          fvm install
+          fvm use
 
       - name: Configure version
         env:
