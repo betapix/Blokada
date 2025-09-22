@@ -1,0 +1,15 @@
+.DS_Store
+
+ios/Pods
+ios/Podfile.lock
+
+local.properties
+keystore.properties
+blokada-gplay.json
+blokada-appstore.json
+*.jks
+*.keystore
+
+*.local.json
+!.claude/
+!.claude/settings.json
