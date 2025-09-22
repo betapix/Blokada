@@ -1,60 +1,45 @@
-name: Android CI
+name: Flutter Android CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - master
   pull_request:
 
 jobs:
-  build:
+  build-android:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
-          cache: gradle
+          java-version: 17
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
 
-      - name: Set up Dart SDK
-        uses: dart-lang/setup-dart@v1
+      - name: Install dependencies
+        run: flutter pub get
 
-      - name: Install FVM
-        run: dart pub global activate fvm
+      # Debug APK
+      - name: Build Debug APK
+        run: flutter build apk --debug
 
-      - name: Add FVM to PATH
-        run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+      # Release APK
+      - name: Build Release APK
+        run: flutter build apk --release
 
-      - name: Fix script permissions
-        run: |
-          chmod +x common/scripts/pigeon.py
-          chmod +x android/gradlew
-
-      - name: Install Flutter via FVM
-        run: fvm install
-
-      - name: Flutter version (via FVM)
-        run: fvm flutter --version | cat
-
-      - name: Flutter pub get
-        run: fvm flutter pub get | cat
-
-      - name: Build APK (family)
-        run: make build-android-family-debug | cat
-
-      - name: Build APK (six)
-        run: make build-android-six-debug | cat
-
-      - name: Upload APK artifacts
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
           name: android-apks
-          path: |
-            android/app/build/outputs/**/*.apk 
+          path: build/app/outputs/flutter-apk/*.apk 
