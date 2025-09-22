@@ -34,7 +34,7 @@ jobs:
 
       - name: Fix script permissions
         run: |
-          chmod +x scripts/pigeon.py
+          chmod +x common/scripts/pigeon.py
           chmod +x android/gradlew
 
       - name: Install Flutter via FVM
